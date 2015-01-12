@@ -5,8 +5,6 @@ login - > reminder preferences - > home
 
 settings - > reminder preferences
 
-about
-
 other stuff
 ---
 notifications
