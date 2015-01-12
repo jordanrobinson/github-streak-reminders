@@ -1,0 +1,11 @@
+
+first class pages
+---
+login - > reminder preferences - > home
+
+settings - > reminder preferences
+
+other stuff
+---
+notifications
+icon
