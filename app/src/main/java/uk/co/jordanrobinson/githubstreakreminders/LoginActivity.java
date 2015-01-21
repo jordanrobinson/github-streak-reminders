@@ -3,7 +3,6 @@ package uk.co.jordanrobinson.githubstreakreminders;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -12,20 +11,15 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +30,6 @@ import java.util.List;
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -104,7 +91,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             focusView = usernameView;
             cancel = true;
         } else if (!isUsernameValid(username)) {
-            usernameView.setError(getString(R.string.error_invalid_email));
+            usernameView.setError(getString(R.string.error_invalid_username));
             focusView = usernameView;
             cancel = true;
         }
@@ -123,7 +110,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    private boolean isUsernameValid(String email) {
+    private boolean isUsernameValid(String username) {
+        if (username == null || !username.equals("")) {
+            return false;
+        }
         //TODO: Replace this with your own logic
         return true;
     }
@@ -203,7 +193,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
     /**
@@ -231,13 +220,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(username) || true) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(username) || true;
-                }
-            }
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(username) || true) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(username) || true;
+//                }
+//            }
 
             // TODO: register the new account here.
             return true;
@@ -257,6 +246,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 startActivity(intent);
                 finish();
             } else {
+                usernameView.setError(getString(R.string.error_invalid_username));
 //                mPasswordView.setError(getString(R.string.error_incorrect_password));
 //                mPasswordView.requestFocus();
             }
