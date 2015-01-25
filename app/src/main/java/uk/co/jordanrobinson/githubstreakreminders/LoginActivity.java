@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -111,7 +112,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isUsernameValid(String username) {
-        if (username == null || !username.equals("")) {
+        if (username == null || username.equals("")) {
+            Log.d("GSR", "username failed validation: " + username);
             return false;
         }
         //TODO: Replace this with your own logic
@@ -209,19 +211,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            // TODO: go scrape some datas
+            GithubService service = new GithubService();
+            boolean doesUserExist = service.doesUserExist(username);
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+            if (doesUserExist) {
+                // TODO: go scrape some datas
             }
 
-            // TODO: register the new account here.
-            return true;
+            return doesUserExist;
         }
 
         @Override
@@ -229,18 +227,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask = null;
             showProgress(false);
 
-
-            //TODO: check if the username exists here
-
             if (success) {
                 finish();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             } else {
-                usernameView.setError(getString(R.string.error_invalid_username));
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mPasswordView.requestFocus();
+                usernameView.setError(getString(R.string.error_username_not_found));
             }
         }
 
