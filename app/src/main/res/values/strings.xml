@@ -12,6 +12,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
 
+    <string name="login_heading">Oh cool someone new!</string>
+    <string name="login_subheading">Sorry to be forward, but uhh... Could I grab your Github username?</string>
+
     <string name="home_heading">Hey there {0}</string>
     <string name="home_subheading">Looks like you\'re on a {0} day streak!</string>
     <string name="home_footer">Keep it up!</string>

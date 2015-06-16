@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +34,9 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    private String Username;
+    private int StreakCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +46,33 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+
+            String username = bundle.getString("username");
+            int streakCount = bundle.getInt("streakCount");
+
+            Log.d(this.getClass().getSimpleName(), "username: " + username);
+            this.Username = username;
+
+            Log.d(this.getClass().getSimpleName(), "streakCount: " + streakCount);
+            this.StreakCount = streakCount;
+
+        }
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final TextView homeHeading = (TextView) findViewById(R.id.home_heading);
+        homeHeading.setText(homeHeading.getText().toString().replace("{0}", this.Username));
+        final TextView homeSubheading = (TextView) findViewById(R.id.home_subheading);
+        homeSubheading.setText(homeSubheading.getText().toString().replace("{0}", this.StreakCount + ""));
     }
 
     @Override

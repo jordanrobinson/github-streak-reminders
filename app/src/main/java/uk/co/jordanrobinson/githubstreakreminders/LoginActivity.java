@@ -25,6 +25,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.jordanrobinson.githubstreakreminders.Utilities.StreakUtilities;
+
 
 /**
  * A login screen that offers login via a Github username, or using Github's authentication
@@ -204,6 +206,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String username;
+        private int streakCount;
 
         UserLoginTask(String username) {
             this.username = username;
@@ -216,7 +219,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             boolean doesUserExist = service.doesUserExist(username);
 
             if (doesUserExist) {
-                // TODO: go scrape some datas
+                streakCount = StreakUtilities.GetCurrentStreak(username);
+                Log.d(this.getClass().getSimpleName(), streakCount + " days streak");
             }
 
             return doesUserExist;
@@ -230,6 +234,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             if (success) {
                 finish();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                bundle.putInt("streakCount", streakCount);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
             } else {

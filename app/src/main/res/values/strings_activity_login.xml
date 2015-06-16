@@ -2,11 +2,10 @@
     <string name="title_activity_login">Log in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Log in with Github</string>
+    <string name="prompt_email">Your awesome Github username</string>
+    <string name="action_sign_in">Yup that\'s me</string>
     <string name="action_continue">Yup that\'s me</string>
     <string name="error_invalid_username">This username doesn\'t look right…</string>
-    <string name="error_username_not_found">We can\'t find that username</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="error_username_not_found">We can\'t find that username :(</string>
+    <string name="error_field_required">This has to be filled in. Sorry!</string>
 </resources>

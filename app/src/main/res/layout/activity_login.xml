@@ -5,7 +5,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="uk.co.jordanrobinson.githubstreakreminders.LoginActivity">
+    tools:context="uk.co.jordanrobinson.githubstreakreminders.LoginActivity"
+    android:background="#333839">
 
     <!-- Login progress -->
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
@@ -20,6 +21,28 @@
 
             <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:orientation="vertical">
+
+                <TextView android:id="@+id/home_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#baccd0"
+                    android:textSize="30sp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/login_heading"/>
+
+                <TextView android:id="@+id/home_subheading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/home_heading"
+                    android:layout_marginBottom="80dp"
+                    android:layout_marginTop="50dp"
+                    android:textColor="#baccd0"
+                    android:textSize="22sp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/login_subheading"
+                    />
 
                 <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:hint="@string/prompt_email"
