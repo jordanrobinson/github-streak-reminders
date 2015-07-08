@@ -8,6 +8,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -38,6 +39,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      */
     private UserLoginTask mAuthTask = null;
 
+    public static final String PREFERENCES = "GithubUserPreferences";
+    public static final String PREFERENCES_USERNAME = "username";
+
     // UI references.
     private TextView usernameView;
     private View mProgressView;
@@ -62,6 +66,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        SharedPreferences preferences = getSharedPreferences(PREFERENCES, 0);
+        String preferencesUsername = preferences.getString(PREFERENCES_USERNAME, null);
+        if (preferencesUsername != null) {
+            Log.d("Stored Username", preferencesUsername);
+            autoLogin(preferencesUsername);
+        }
     }
 
     private void populateAutoComplete() {
@@ -118,7 +129,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             Log.d("GSR", "username failed validation: " + username);
             return false;
         }
-        //TODO: Replace this with your own logic
         return true;
     }
 
@@ -156,6 +166,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    protected void autoLogin(String username) {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("username", username);
+        //TODO: Move to another thread
+//        bundle.putInt("streakCount", StreakUtilities.GetCurrentStreak(username));
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
@@ -219,6 +239,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             boolean doesUserExist = service.doesUserExist(username);
 
             if (doesUserExist) {
+                //store for next time
+                SharedPreferences preferences = getSharedPreferences(PREFERENCES, 0);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(PREFERENCES_USERNAME, username);
+                editor.apply();
+
+                String preferencesUsername = preferences.getString(PREFERENCES_USERNAME, null);
+
                 streakCount = StreakUtilities.GetCurrentStreak(username);
                 Log.d(this.getClass().getSimpleName(), streakCount + " days streak");
             }
